@@ -72,7 +72,7 @@ public class UserService {
 			userRepository.save(userEntity);
 			erpsystemResponse.getErpSystemResponse().put("createUser", "User got Registred in the system");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
-			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. Email Id already taken. Please use another emaild id");
+			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. Email Id already Exists. Please use another emaild id");
 			httpStatus = HttpStatus.CONFLICT;
 		}
 		catch (Exception e) {
