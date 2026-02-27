@@ -55,7 +55,7 @@ public class SecurityConfig {
         		"https://tankstudentportalreact1.vercel.app")); // React dev server
         configuration.addAllowedOriginPattern("https://*.vercel.app");
         configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization","Content-Type", "Accept"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

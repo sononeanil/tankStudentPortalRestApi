@@ -69,6 +69,7 @@ public class UserService {
 		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
 		HttpStatus httpStatus = HttpStatus.CREATED;
 		try {
+			userEntity.setRole("USER");
 			userRepository.save(userEntity);
 			erpsystemResponse.getErpSystemResponse().put("createUser", "User got Registred in the system");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
