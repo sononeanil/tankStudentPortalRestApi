@@ -77,6 +77,7 @@ public class StudentService {
 			//In the userEntity, email is considered as login Id
 			userEntity.setEmail(studentPOJO.getLoginId());
 			userEntity.setPassword(studentPOJO.getPassword());
+			userEntity.setRole("STUDENT");
 			userRepository.save(userEntity);
 			
 		}catch (DataIntegrityViolationException e) {
