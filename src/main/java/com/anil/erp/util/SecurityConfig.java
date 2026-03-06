@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .requestMatchers("/erpsystem/login/validate", "/erpsystem/user/signup").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Teacher-only upload
-                .requestMatchers("/erpsystem/upload/**").hasRole("TEACHER")
+                .requestMatchers("/erpsystem/upload/**","/erpsystem/zoom/**").hasRole("TEACHER")
 
                 // User-only dashboard/profile
                 .requestMatchers("/erpsystem/dashboard/**", "/erpsystem/user/**","/erpsystem/student/**").hasRole("USER")
