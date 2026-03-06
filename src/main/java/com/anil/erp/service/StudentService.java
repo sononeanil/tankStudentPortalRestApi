@@ -92,7 +92,7 @@ public class StudentService {
 		}
 		
 		erpsystemResponse.getErpSystemResponse().put("message", message);
-		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.CREATED);
+		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, httpStatus);
 	}
 
 	public ResponseEntity<ErpsystemResponse> deleteStudent(long studentId) {
