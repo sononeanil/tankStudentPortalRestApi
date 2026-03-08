@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .requestMatchers("/erpsystem/upload/**","/erpsystem/zoom/**").hasRole("TEACHER")
 
                 // User-only dashboard/profile
-                .requestMatchers("/erpsystem/dashboard/**", "/erpsystem/user/**","/erpsystem/student/**").hasRole("USER")
+                .requestMatchers("/erpsystem/dashboard/**", "/erpsystem/user/**").hasRole("USER")
 
                 // Student-only section
                 .requestMatchers("/erpsystem/student/**").hasRole("STUDENT")

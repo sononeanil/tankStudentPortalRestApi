@@ -7,6 +7,7 @@ import com.anil.erp.entity.StudentEntity;
 import com.anil.erp.pojo.StudentPOJO;
 import com.anil.erp.service.CustomerService;
 import com.anil.erp.service.StudentService;
+import com.anil.erp.service.ZoomService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class StudentController {
 	
 	@Autowired
 	private StudentService studentService;
+	
+	@Autowired
+	private ZoomService zoomService;
 	
 	@GetMapping("/all")
 	public ResponseEntity<ErpsystemResponse> getStudentList() {
@@ -50,5 +54,11 @@ public class StudentController {
 	public ResponseEntity<ErpsystemResponse> deleteStudent(@PathVariable long id) {
 		return studentService.deleteStudent(id);
 	}
+	
+    @GetMapping("/upcoming")
+    public ResponseEntity<ErpsystemResponse> getUpcomingMeeting(){
+    	System.out.println("getUpcomingMeeting up zoom meeting");
+    	return zoomService.getUpcomingMeeting();
+    }
 	
 }
