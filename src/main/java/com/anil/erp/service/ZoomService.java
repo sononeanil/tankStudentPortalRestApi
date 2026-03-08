@@ -139,12 +139,11 @@ public class ZoomService {
         return (String) body.get("access_token");
     }
     
-    public ResponseEntity<ErpsystemResponse> getZoomList() {
-		List<ZoomEntity> lstZoom = zoomRepository.findAll();
+    public ResponseEntity<ErpsystemResponse> getUpcomingMeeting() {
+		List<ZoomEntity> upcomingMeetingList = zoomRepository.findAll();
 		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
-		erpsystemResponse.getErpSystemResponse().put("zoomList", lstZoom);
+		erpsystemResponse.getErpSystemResponse().put("upcomingMeetingList", upcomingMeetingList);
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.OK);
-		
 	}
 	
 	public ResponseEntity<ErpsystemResponse> createZoom(ZoomPOJO zoomPojo) {
@@ -161,7 +160,7 @@ public class ZoomService {
 			zoomEntity.setStartUrl((String)hmZoomMeetingDetails.get("start_url"));
 			zoomEntity.setJoinUrl((String)hmZoomMeetingDetails.get("join_url"));
 			zoomEntity.setPassword((String)hmZoomMeetingDetails.get("password"));
-			zoomEntity.setOrganizerEmail((String)hmZoomMeetingDetails.get("host_email"));
+			zoomEntity.setOrganizerEmail(zoomPojo.getOrganizerEmail());
 			zoomRepository.save(zoomEntity);
 			erpsystemResponse.getErpSystemResponse().put("createZoom", "Zoom got Registred in the system");
 		}catch(Exception exception) {

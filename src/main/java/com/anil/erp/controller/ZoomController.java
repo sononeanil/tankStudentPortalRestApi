@@ -35,5 +35,11 @@ public class ZoomController {
     	System.out.println("Setting up zoom meeting");
     	return zoomService.createZoom(zoomEntity);
     }
+    
+    @GetMapping("/upcoming")
+    public ResponseEntity<ErpsystemResponse> getUpcomingMeeting(){
+    	System.out.println("getUpcomingMeeting up zoom meeting");
+    	return zoomService.getUpcomingMeeting();
+    }
 
 }
