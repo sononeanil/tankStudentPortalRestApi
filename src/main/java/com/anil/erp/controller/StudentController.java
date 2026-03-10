@@ -37,12 +37,7 @@ public class StudentController {
 		
 		return studentService.getStudentList();
 	}
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
-	@GetMapping("/parent/{id}")
-	public ResponseEntity<ErpsystemResponse> getStudentListForParent(@PathVariable Long id) {
-		
-		return studentService.getStudentListForParent(id);
-	}
+
 	
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	@PostMapping()

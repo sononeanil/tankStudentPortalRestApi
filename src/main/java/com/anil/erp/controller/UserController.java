@@ -49,8 +49,6 @@ public class UserController {
 	}
 	
 
-	
-
 	@GetMapping("/parent/{id}/students")
 	public ResponseEntity<ErpsystemResponse> getStudentListForParent(@PathVariable Long id) {
 		
