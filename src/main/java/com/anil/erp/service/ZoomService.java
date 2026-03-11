@@ -145,6 +145,14 @@ public class ZoomService {
 		erpsystemResponse.getErpSystemResponse().put("upcomingMeetingList", upcomingMeetingList);
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.OK);
 	}
+    
+    public ResponseEntity<ErpsystemResponse> getUpcomingMeetingForTeacher(String teacherEmailId) {
+		List<ZoomEntity> upcomingMeetingList = zoomRepository.findAllByOrganizerEmail(teacherEmailId);
+		System.out.println(upcomingMeetingList);
+		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
+		erpsystemResponse.getErpSystemResponse().put("upcomingMeetingListForTeacher", upcomingMeetingList);
+		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.OK);
+	}
 	
 	public ResponseEntity<ErpsystemResponse> createZoom(ZoomPOJO zoomPojo) {
 		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
