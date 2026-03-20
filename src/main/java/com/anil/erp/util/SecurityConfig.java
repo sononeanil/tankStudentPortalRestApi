@@ -25,7 +25,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/erpsystem/login/validate", "/erpsystem/user/signup").permitAll()
+                .requestMatchers("/erpsystem/login/validate", 
+                		"/erpsystem/login/publishCourse/all", 
+                		"/erpsystem/login/publishCourse", 
+                		"/erpsystem/user/signup").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Teacher-only upload
                 .requestMatchers("/erpsystem/upload/**","/erpsystem/zoom/**","/erpsystem/teacher/**").hasRole("TEACHER")
