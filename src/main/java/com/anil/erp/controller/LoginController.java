@@ -52,6 +52,11 @@ public class LoginController {
 		return publishCourseService.getPublishCourseList();
 	}
 	
+	@GetMapping("/publishCourse/top6")
+	public ResponseEntity<ErpsystemResponse> getPublishCourseListTop6() {
+		return publishCourseService.getPublishCourseListTop6();
+	}
+	
 	@GetMapping("/publishCourse")
 	public ResponseEntity<ErpsystemResponse> getCourseDetails(@RequestParam long courseId	) {
 		return publishCourseService.getCourseDetails(courseId);

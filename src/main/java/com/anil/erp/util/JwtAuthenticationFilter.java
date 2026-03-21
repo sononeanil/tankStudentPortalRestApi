@@ -32,15 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
     	
-    	
-
-    
-
 
         String path = request.getServletPath();
 
         // Skip public endpoints
-        if ("/erpsystem/login/validate".equals(path) || "/erpsystem/login/publishCourse/all".equals(path) || "/erpsystem/user/signup".equals(path)) {
+        if ("/erpsystem/login/validate".equals(path) ||
+        		"/erpsystem/login/publishCourse/all".equals(path)|| 
+        		"/erpsystem/login/publishCourse/top6".equals(path) || 
+        		"/erpsystem/user/signup".equals(path)) {
             filterChain.doFilter(request, response);
             return;
         }
