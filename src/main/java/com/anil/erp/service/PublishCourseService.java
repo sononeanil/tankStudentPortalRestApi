@@ -72,7 +72,7 @@ public class PublishCourseService {
 			registerCourseRepository.save(registerCourseEntity);
 			erpsystemResponse.getErpSystemResponse().put("message", "Course Registration Successful.");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
-			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed.");
+			erpsystemResponse.getErpSystemResponse().put("message", " You have already registered for this course. Registraion Failed..");
 			httpStatus = HttpStatus.CONFLICT;
 		}
 		catch (Exception e) {
