@@ -27,6 +27,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/erpsystem/login/validate", 
                 		"/erpsystem/login/publishCourse/all", 
+                		"/erpsystem/login/publishCourse/top6", 
                 		"/erpsystem/login/publishCourse", 
                 		"/erpsystem/user/signup").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

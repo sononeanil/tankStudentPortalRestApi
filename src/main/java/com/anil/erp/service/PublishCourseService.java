@@ -36,12 +36,21 @@ public class PublishCourseService {
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.OK);
 	}
 	
+	public ResponseEntity<ErpsystemResponse> getPublishCourseListTop6() {
+		List<PublishCourseEntity> lstPublishCourse = publishCourseRepository.findTop6ByOrderByIdDesc();
+		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
+		erpsystemResponse.getErpSystemResponse().put("publishCourseListTop6", lstPublishCourse);
+		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.OK);
+	}
+	
 	public ResponseEntity<ErpsystemResponse> createPublishCourse(PublishCourseEntity publishCourseEntity) {
 		publishCourseRepository.save(publishCourseEntity);
 		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
 		erpsystemResponse.getErpSystemResponse().put("createPublishCourse", "PublishCourse got Registred in the system");
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.CREATED);
 	}
+	
+	
 
 	public ResponseEntity<ErpsystemResponse> deletePublishCourse(long publishCourseId) {
 		publishCourseRepository.deleteById(publishCourseId);
