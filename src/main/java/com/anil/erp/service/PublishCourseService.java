@@ -29,6 +29,12 @@ public class PublishCourseService {
 	@Autowired
 	RegisterCourseRepository registerCourseRepository;
 	
+	@Autowired
+	EmailService emailService;
+	
+	@Autowired
+	MimeEmailService mimeEmailService;
+	
 	public ResponseEntity<ErpsystemResponse> getPublishCourseList() {
 		List<PublishCourseEntity> lstPublishCourse = publishCourseRepository.findAll();
 		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
@@ -71,6 +77,11 @@ public class PublishCourseService {
 		try {
 			registerCourseRepository.save(registerCourseEntity);
 			erpsystemResponse.getErpSystemResponse().put("message", "Course Registration Successful.");
+			System.out.println("reached 11111");
+			emailService.sendEmail(registerCourseEntity.getStudentEmailId(), 
+					registerCourseEntity.getStudentEmailId(), 
+					"You have Successfully Registered for course hosted By " + registerCourseEntity.getOrganizerEmailId());
+		mimeEmailService.sendHtmlEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank", "You have Successfully Registered for course");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
 			erpsystemResponse.getErpSystemResponse().put("message", " You have already registered for this course. Registraion Failed..");
 			httpStatus = HttpStatus.CONFLICT;
@@ -78,7 +89,11 @@ public class PublishCourseService {
 		catch (Exception e) {
 			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. ");
 			httpStatus = HttpStatus.CONFLICT;
+			e.printStackTrace();
 		}
+		
+		
+		
 		
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, httpStatus);
 	}
