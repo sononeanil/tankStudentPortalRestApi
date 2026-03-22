@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.anil.erp.common.ErpsystemResponse;
 import com.anil.erp.entity.CustomerEntity;
@@ -30,10 +33,9 @@ public class PublishCourseService {
 	RegisterCourseRepository registerCourseRepository;
 	
 	@Autowired
-	EmailService emailService;
+	ResendEmailService resendEmailService;
 	
-	@Autowired
-	MimeEmailService mimeEmailService;
+
 	
 	public ResponseEntity<ErpsystemResponse> getPublishCourseList() {
 		List<PublishCourseEntity> lstPublishCourse = publishCourseRepository.findAll();
@@ -78,10 +80,12 @@ public class PublishCourseService {
 			registerCourseRepository.save(registerCourseEntity);
 			erpsystemResponse.getErpSystemResponse().put("message", "Course Registration Successful.");
 			System.out.println("reached 11111");
-			emailService.sendEmail(registerCourseEntity.getStudentEmailId(), 
-					registerCourseEntity.getStudentEmailId(), 
-					"You have Successfully Registered for course hosted By " + registerCourseEntity.getOrganizerEmailId());
-		mimeEmailService.sendHtmlEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank", "You have Successfully Registered for course");
+//			emailService.sendEmail(registerCourseEntity.getStudentEmailId(), 
+//					registerCourseEntity.getStudentEmailId(), 
+//					"You have Successfully Registered for course hosted By " + registerCourseEntity.getOrganizerEmailId());
+//		mimeEmailService.sendHtmlEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank", "You have Successfully Registered for course");
+		
+		resendEmailService.sendEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
 			erpsystemResponse.getErpSystemResponse().put("message", " You have already registered for this course. Registraion Failed..");
 			httpStatus = HttpStatus.CONFLICT;
