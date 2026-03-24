@@ -27,9 +27,9 @@ public class ResendEmailService {
         this.templateEngine = templateEngine;
     }
     
-    private String getHtmlMailBody(String name, String courseName) {
+    private String getHtmlMailBody( String userName, String courseName) {
     	Context context = new Context();
-        context.setVariable("name", name);
+        context.setVariable("name", userName);
         context.setVariable("courseName", courseName);
         ClassPathResource image = new ClassPathResource("static/logo.png");
         return templateEngine.process("RegisterCourse", context);
@@ -44,13 +44,13 @@ public class ResendEmailService {
     }
     
     @Async
-    public void sendEmail(String to, String subject) {
+    public void sendEmail(String to, String subject, String userName, String courseName) {
 
         Map<String, Object> body = Map.of(
                 "from", "onboarding@resend.dev",  // default test sender
                 "to", to,
                 "subject", subject,
-                "html", getHtmlMailBody(to, subject)
+                "html", getHtmlMailBody(userName, courseName)
         );
 
         String response = "";

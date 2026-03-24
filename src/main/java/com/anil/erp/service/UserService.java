@@ -27,6 +27,10 @@ public class UserService {
 	@Autowired
 	MetaDataRepository metaDataRepository;
 	
+	public UserEntity findByEmail(String userEmailId) {
+		return  userRepository.findByEmail(userEmailId);
+	}
+	
 	/**
 	 * 
 	 * @param userEmailId

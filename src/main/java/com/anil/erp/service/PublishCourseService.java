@@ -1,25 +1,18 @@
 package com.anil.erp.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.anil.erp.common.ErpsystemResponse;
-import com.anil.erp.entity.CustomerEntity;
 import com.anil.erp.entity.PublishCourseEntity;
 import com.anil.erp.entity.RegisterCourseEntity;
 import com.anil.erp.entity.UserEntity;
-import com.anil.erp.repository.CustomerRepository;
 import com.anil.erp.repository.PublishCourseRepository;
 import com.anil.erp.repository.RegisterCourseRepository;
 
@@ -34,6 +27,12 @@ public class PublishCourseService {
 	
 	@Autowired
 	ResendEmailService resendEmailService;
+	
+	@Autowired
+	WhatsAppTwiloService whatsAppTwiloService;
+	
+	@Autowired
+	UserService userService;
 	
 
 	
@@ -79,13 +78,27 @@ public class PublishCourseService {
 		try {
 			registerCourseRepository.save(registerCourseEntity);
 			erpsystemResponse.getErpSystemResponse().put("message", "Course Registration Successful.");
-			System.out.println("reached 11111");
+			System.out.println("reached DB updated 1111 ");
 //			emailService.sendEmail(registerCourseEntity.getStudentEmailId(), 
 //					registerCourseEntity.getStudentEmailId(), 
 //					"You have Successfully Registered for course hosted By " + registerCourseEntity.getOrganizerEmailId());
 //		mimeEmailService.sendHtmlEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank", "You have Successfully Registered for course");
 		
-		resendEmailService.sendEmail(registerCourseEntity.getStudentEmailId(), "Course Registerd On Tank");
+			String userEmailId = registerCourseEntity.getStudentEmailId();
+			String userName = userEmailId;
+			String courseName =  registerCourseEntity.getCourseName();
+			UserEntity userEntity = userService.findByEmail(userEmailId);
+			String alternetEmailId = userEntity.getAlternateEmailId();
+			System.out.println("Alternet email id " + userEntity.getAlternateEmailId());
+			if(alternetEmailId != null && !alternetEmailId.equalsIgnoreCase("")) {
+				userEmailId = alternetEmailId;
+			}
+			
+			
+		resendEmailService.sendEmail(userEmailId, courseName + " - Course Registerd On Tank", userName, courseName );
+		System.out.println("reached Mail Sent 22222");
+		
+		whatsAppTwiloService.sendWhatsAppMessageToStudent("+91" + userEntity.getPhoneNumber(), "You have registerd for the course - " + courseName);
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
 			erpsystemResponse.getErpSystemResponse().put("message", " You have already registered for this course. Registraion Failed..");
 			httpStatus = HttpStatus.CONFLICT;
@@ -95,9 +108,6 @@ public class PublishCourseService {
 			httpStatus = HttpStatus.CONFLICT;
 			e.printStackTrace();
 		}
-		
-		
-		
 		
 		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, httpStatus);
 	}

@@ -26,18 +26,25 @@ public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
+	@Column(nullable = true)
 	private String firstName;
+	@Column(nullable = true)
 	private String lastName;
+	@Column(nullable = true)
 	private String address;
+	@Column(nullable = true)
 	private String city;
+	@Column(nullable = true)
 	private String country;
+	@Column(nullable = true)
 	private String newsLetter;
 	@Column(unique = true, nullable = false)
 	private String email;
 	private String password;
-	private String type;
 	private String role;
+	private String phoneNumber;
+	@Column(nullable = true)
+	private String alternateEmailId;
 
 }
 //-----------------------------------

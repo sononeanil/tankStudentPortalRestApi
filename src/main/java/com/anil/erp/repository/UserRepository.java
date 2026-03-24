@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 	@Query("Update UserEntity u SET u.role = :rolesList where u.id = :id")
 	int updateRoleById(@Param("id") Long id, @Param("rolesList") String rolesList	);
 
+	UserEntity findByEmail(String userEmailId);
+
 }
