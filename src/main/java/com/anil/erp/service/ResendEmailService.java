@@ -53,16 +53,22 @@ public class ResendEmailService {
                 "html", getHtmlMailBody(to, subject)
         );
 
-        String response = webClient.post()
-                .uri("/emails")
-                .header("Authorization", "Bearer " + apiKey)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(body)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        String response = "";
+		try {
+			response = webClient.post()
+			        .uri("/emails")
+			        .header("Authorization", "Bearer " + apiKey)
+			        .contentType(MediaType.APPLICATION_JSON)
+			        .bodyValue(body)
+			        .retrieve()
+			        .bodyToMono(String.class)
+			        .block();
+		} catch (Exception e) {
+			System.out.println("Exception while sending email 1111111 " + to);
+			e.printStackTrace();
+		}
 
-        System.out.println("Email sent: " + response);
+        System.out.println("Email sent: 111111 " + response);
     }
 	
 
