@@ -47,8 +47,8 @@ public class ResendEmailService {
     public void sendEmail(String to, String subject, String userName, String courseName) {
 
         Map<String, Object> body = Map.of(
-                "from", "onboarding@resend.dev",  // default test sender
-                "to", to,
+                "from", "no-reply@yourapp.com",  // default test sender
+                "to", java.util.List.of(to),
                 "subject", subject,
                 "html", getHtmlMailBody(userName, courseName)
         );
