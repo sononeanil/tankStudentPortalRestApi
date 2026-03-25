@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,10 +19,12 @@ import okhttp3.*;
 @Service
 public class BrevoEmailService {
 
-    private final String API_KEY = System.getenv("BREVO_API_KEY");
+//    private final String API_KEY = System.getenv("BREVO_API_KEY");
 	  private final TemplateEngine templateEngine;
 
-    
+	    @Value("${brevo.api.key}")
+	    private String API_KEY;
+	    
     public BrevoEmailService( TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
@@ -59,12 +62,8 @@ public class BrevoEmailService {
             
             RequestBody body = RequestBody.create(json, mediaType);
         	
-        	System.out.println("444444 " + toEmail);
+        	System.out.println("444444 " + toEmail + " --> " + API_KEY.substring(5,5));
             OkHttpClient client = new OkHttpClient();
-
-            
-
-            
             
             System.out.println(json);
 
