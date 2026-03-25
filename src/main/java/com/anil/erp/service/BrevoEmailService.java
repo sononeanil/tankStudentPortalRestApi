@@ -62,10 +62,10 @@ public class BrevoEmailService {
             
             RequestBody body = RequestBody.create(json, mediaType);
         	
-        	System.out.println("444444 " + toEmail + " --> " + API_KEY.substring(5,5));
+//        	System.out.println("444444 " + toEmail + " --> " + API_KEY.substring(5,5));
             OkHttpClient client = new OkHttpClient();
             
-            System.out.println(json);
+//            System.out.println(json);
 
 //            RequestBody body = RequestBody.create(json, mediaType);
             Request request = new Request.Builder()
