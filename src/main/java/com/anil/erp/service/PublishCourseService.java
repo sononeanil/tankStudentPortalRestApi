@@ -100,10 +100,10 @@ public class PublishCourseService {
 			
 //		resendEmailService.sendEmail(userEmailId, courseName + " - Course Registerd On Tank", userName, courseName );
 			
-			brevoEmailService.sendEmail(alternetEmailId, userName, courseName, courseName + " - Course Registerd On Tank");
+		brevoEmailService.sendEmail(alternetEmailId, userName, courseName, courseName + " - Course Registerd On Tank");
 		System.out.println("reached Mail Sent 22222");
 		
-//		whatsAppTwiloService.sendWhatsAppMessageToStudent("+91" + userEntity.getPhoneNumber(), "You have registered for the course - " + courseName);
+		whatsAppTwiloService.sendWhatsAppMessageToStudent("+91" + userEntity.getPhoneNumber(), "You have registered for the course - " + courseName);
 		System.out.println("reached Mail Sent 33333");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
 			erpsystemResponse.getErpSystemResponse().put("message", " You have already registered for this course. Registraion Failed..");
