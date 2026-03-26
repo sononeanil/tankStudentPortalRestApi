@@ -92,15 +92,15 @@ public class PublishCourseService {
 			String courseName =  registerCourseEntity.getCourseName();
 			UserEntity userEntity = userService.findByEmail(userEmailId);
 			String alternetEmailId = userEntity.getAlternateEmailId();
-			System.out.println("Alternet email id " + userEntity.getAlternateEmailId());
+			
 			if(alternetEmailId != null && !alternetEmailId.equalsIgnoreCase("")) {
 				userEmailId = alternetEmailId;
 			}
 			
-			
+			System.out.println(userEmailId + " user email - Alternet email id " + userEntity.getAlternateEmailId());
 //		resendEmailService.sendEmail(userEmailId, courseName + " - Course Registerd On Tank", userName, courseName );
 			
-		brevoEmailService.sendEmail(alternetEmailId, userName, courseName, courseName + " - Course Registerd On Tank");
+		brevoEmailService.sendEmail(userEmailId, userName, courseName, courseName + " - Course Registerd On Tank");
 		System.out.println("reached Mail Sent 22222");
 		
 		whatsAppTwiloService.sendWhatsAppMessageToStudent("+91" + userEntity.getPhoneNumber(), "You have registered for the course - " + courseName);
