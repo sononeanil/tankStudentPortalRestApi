@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.anilpractice</groupId>
 	<artifactId>ERPSystem2025Nov27</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>TeachersPortal</name>
 	<description>TeachersPortal for online courses</description>
 	<url/>
@@ -50,6 +50,13 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-mail</artifactId>
 </dependency>
+
+<dependency>
+  <groupId>com.cloudinary</groupId>
+  <artifactId>cloudinary-http44</artifactId>
+  <version>1.39.0</version>
+</dependency>
+
 <!--Whats app-->
 <dependency>
   <groupId>com.twilio.sdk</groupId>
