@@ -16,48 +16,49 @@ import net.sourceforge.tess4j.Tesseract;
 
 @Service
 public class TesseractOcrService {
-	
-	 private final ITesseract tesseract;
 
-	    public TesseractOcrService() {
-	        tesseract = new Tesseract();
+    private final ITesseract tesseract;
 
-	        tesseract.setDatapath("/usr/share/tesseract-ocr/4.00/tessdata");
-	        tesseract.setLanguage("eng");
+    public TesseractOcrService() {
+        tesseract = new Tesseract();
 
-	        // ✅ NEW method
-	        tesseract.setVariable("user_defined_dpi", "300");
-	    }
+        // ❌ DO NOT set datapath (Docker will handle it)
+        // tesseract.setDatapath(...);
 
-	    public ResponseEntity<ErpsystemResponse> extractText(String imagePath) {
-//	    	 String filePath = "/tmp/input.jpg";
-	    	 String filePath = System.getProperty("java.io.tmpdir") + File.separator + "input.jpg";
-	    	 System.out.println("222222");
-		       
-	    	String ocrText = null;
-	        try {
-	        	System.out.println("333333");
-	        	 Files.copy(new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774765470/iwtycdqacrhfj8dhzbo7.jpg").openStream(), Paths.get(filePath));
-	        	 System.out.println("4444");
-	            ocrText =  tesseract.doOCR(new File(filePath));
-	            System.out.println("55555 " + ocrText);
-	        } catch (Exception e) {
-	            throw new RuntimeException("OCR failed", e);
-	        }
-			String message  = "File Uploaded successfully. Please update rest of the attribute ";
-			HttpStatus httpStatus = HttpStatus.CREATED;
-			ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
-	        erpsystemResponse.getErpSystemResponse().put("message", message);
-			 return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, httpStatus);
-	    }
-	
-	private  String getImageFromCloudinary(String imageUrl) {
-	    try {
-	        String filePath = "/tmp/input.jpg";
-	        Files.copy(new URL(imageUrl).openStream(), Paths.get(filePath));
-	        return filePath;
-	    } catch (Exception e) {
-	        throw new RuntimeException("Download failed", e);
-	    }
-	}
+        tesseract.setLanguage("eng");
+        tesseract.setVariable("user_defined_dpi", "300");
+    }
+
+    public ResponseEntity<ErpsystemResponse> extractText() {
+
+        String filePath = System.getProperty("java.io.tmpdir") 
+                + File.separator 
+                + "input_" + System.currentTimeMillis() + ".jpg";
+
+        try {
+            System.out.println("Downloading image...");
+//            Files.copy(new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774791152/nthjhr2zuds5isftw4sl.jpg").openStream(), Paths.get(filePath));
+            Files.copy(
+            	    new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774791152/nthjhr2zuds5isftw4sl.jpg").openStream(),
+            	    Paths.get(filePath),
+            	    java.nio.file.StandardCopyOption.REPLACE_EXISTING
+            	);
+            System.out.println("Running OCR...");
+            String ocrText = tesseract.doOCR(new File(filePath));
+
+            System.out.println("OCR TEXT: " + ocrText);
+
+            // Cleanup temp file
+            new File(filePath).delete();
+
+            ErpsystemResponse response = new ErpsystemResponse();
+            response.getErpSystemResponse().put("message", "OCR Success");
+            response.getErpSystemResponse().put("text", ocrText);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new RuntimeException("OCR failed", e);
+        }
+    }
 }
