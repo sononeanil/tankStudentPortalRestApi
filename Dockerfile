@@ -1,3 +1,4 @@
+# Stage 1: Build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
@@ -7,10 +8,17 @@ RUN mvn clean package -DskipTests
 
 
 # Stage 2: Runtime
-RUN apt-get update && apt-get install -y tesseract-ocr
-FROM eclipse-temurin:17-jdk AS runtime
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
+
+# ✅ Install Tesseract HERE (important)
+RUN apt-get update && \
+    apt-get install -y tesseract-ocr tesseract-ocr-eng && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy app
 COPY --from=build /app/target/*.jar app.jar
 COPY uploads /app/uploads
+
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]

@@ -7,6 +7,7 @@ import com.anil.erp.entity.StudentEntity;
 import com.anil.erp.pojo.StudentPOJO;
 import com.anil.erp.service.CustomerService;
 import com.anil.erp.service.StudentService;
+import com.anil.erp.service.TesseractOcrService;
 import com.anil.erp.service.ZoomService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,20 @@ public class StudentController {
 	@Autowired
 	private ZoomService zoomService;
 	
+	@Autowired
+	private TesseractOcrService tesseractOcrService;
+	
 	@GetMapping("/all")
 	public ResponseEntity<ErpsystemResponse> getStudentList() {
 		
 		return studentService.getStudentList();
 	}
 
+	@GetMapping("/getNotes")
+	public ResponseEntity<ErpsystemResponse> getNotes() {
+		System.out.println("111111");
+		return tesseractOcrService.extractText(null);
+	}
 	
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	@PostMapping()
