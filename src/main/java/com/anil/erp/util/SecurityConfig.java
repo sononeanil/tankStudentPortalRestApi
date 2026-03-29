@@ -29,7 +29,9 @@ public class SecurityConfig {
                 		"/erpsystem/login/publishCourse/all", 
                 		"/erpsystem/login/publishCourse/top6", 
                 		"/erpsystem/login/publishCourse", 
-                		"/erpsystem/user/signup").permitAll()
+                		"/erpsystem/user/signup",
+                		"/erpsystem/student/**",
+                		"/erpsystem/user/parent/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Teacher-only upload
                 .requestMatchers("/erpsystem/upload/**","/erpsystem/zoom/**","/erpsystem/teacher/**").hasRole("TEACHER")

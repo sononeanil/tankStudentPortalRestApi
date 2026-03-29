@@ -5,7 +5,9 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
+
 # Stage 2: Runtime
+RUN apt-get update && apt-get install -y tesseract-ocr
 FROM eclipse-temurin:17-jdk AS runtime
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar

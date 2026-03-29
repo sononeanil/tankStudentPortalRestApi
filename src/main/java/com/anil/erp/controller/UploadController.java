@@ -9,6 +9,7 @@ import com.anil.erp.entity.StudentEntity;
 import com.anil.erp.entity.UploadEntity;
 import com.anil.erp.pojo.UploadPOJO;
 import com.anil.erp.service.CustomerService;
+import com.anil.erp.service.UploadCloudinaryService;
 import com.anil.erp.service.UploadService;
 
 import java.io.File;
@@ -39,7 +40,9 @@ public class UploadController {
 	@Autowired
 	private UploadService uploadService;
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@Autowired
+	private UploadCloudinaryService cloudinaryService;
+	
 	@GetMapping("/all")
 	public ResponseEntity<ErpsystemResponse> getUploadList() {
 		
@@ -56,7 +59,7 @@ public class UploadController {
 	@PostMapping()
 	public ResponseEntity<ErpsystemResponse> createUpload(@RequestParam("file") MultipartFile file, @RequestParam("destinationDirectory") String destinationDirectory) {
 		String uploadDir = System.getProperty("user.dir") + "/uploads/" + destinationDirectory+"/"; // project root
-//		System.out.println("UPload Directory=" + uploadDir);
+		System.out.println("UPload Directory=" + uploadDir);
 //
 		String message  = "File Uploaded successfully. Please update rest of the attribute " + file.getOriginalFilename();
 		HttpStatus httpStatus = HttpStatus.CREATED;
@@ -64,15 +67,16 @@ public class UploadController {
 		try {
             // Save file to local directory
             
-            File targetFile = new File(uploadDir + file.getOriginalFilename());
-            System.out.println(targetFile.getCanonicalPath());
-            file.transferTo(targetFile);
+			cloudinaryService.uploadFile(file);
+//            File targetFile = new File(uploadDir + file.getOriginalFilename());
+//            System.out.println(targetFile.getCanonicalPath());
+//            file.transferTo(targetFile);
            
         }catch(MaxUploadSizeExceededException maxUploadSizeExceededException){
         	message = "File upload failed: " + file.getOriginalFilename() + " Maximum file size exceeded. Upload only up to 5MB size";
         	httpStatus = HttpStatus.CONTENT_TOO_LARGE;
         }
-		catch (IOException e) {
+		catch (Exception e) {
             message = "File upload failed: " + file.getOriginalFilename() + e.getMessage();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
