@@ -27,6 +27,7 @@ public class TesseractOcrService {
 
         tesseract.setLanguage("eng");
         tesseract.setVariable("user_defined_dpi", "300");
+        tesseract.setVariable("preserve_interword_spaces", "1");
     }
 
     public ResponseEntity<ErpsystemResponse> extractText() {
@@ -36,6 +37,7 @@ public class TesseractOcrService {
                 + "input_" + System.currentTimeMillis() + ".jpg";
 
         try {
+        	System.out.println("TESSDATA_PREFIX=" + System.getenv("TESSDATA_PREFIX"));
             System.out.println("Downloading image...");
 //            Files.copy(new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774791152/nthjhr2zuds5isftw4sl.jpg").openStream(), Paths.get(filePath));
             Files.copy(

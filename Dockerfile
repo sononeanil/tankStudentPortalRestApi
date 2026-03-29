@@ -11,10 +11,13 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# ✅ Install Tesseract HERE (important)
+# ✅ Install Tesseract + English data
 RUN apt-get update && \
     apt-get install -y tesseract-ocr tesseract-ocr-eng && \
     rm -rf /var/lib/apt/lists/*
+
+# ✅ ADD THIS LINE (MOST IMPORTANT 🔥)
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
 
 # Copy app
 COPY --from=build /app/target/*.jar app.jar
