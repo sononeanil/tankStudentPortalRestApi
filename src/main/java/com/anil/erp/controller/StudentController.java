@@ -43,9 +43,10 @@ public class StudentController {
 	}
 
 	@GetMapping("/getNotes")
-	public ResponseEntity<ErpsystemResponse> getNotes() {
+	public ResponseEntity<String> getNotes() {
 		System.out.println("111111");
-		return tesseractOcrService.extractText();
+		 tesseractOcrService.extractTextAsync();
+		 return  ResponseEntity.ok("Working on");
 	}
 	
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
