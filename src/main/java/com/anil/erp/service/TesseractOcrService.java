@@ -125,8 +125,7 @@ public class TesseractOcrService {
             }
 
             String ocrText = finalText.toString();
-
-            System.out.println("OCR TEXT: " + ocrText);
+            System.out.println(ocrText);
 
             // Cleanup
             new File(filePath).delete();
