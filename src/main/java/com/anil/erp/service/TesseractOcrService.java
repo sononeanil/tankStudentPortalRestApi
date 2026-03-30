@@ -28,6 +28,8 @@ public class TesseractOcrService {
         tesseract.setLanguage("eng");
         tesseract.setVariable("user_defined_dpi", "300");
         tesseract.setVariable("preserve_interword_spaces", "1");
+        tesseract.setPageSegMode(6);
+        tesseract.setOcrEngineMode(1);
     }
 
     public ResponseEntity<ErpsystemResponse> extractText() {
