@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.anil.erp.common.ErpsystemResponse;
+import com.anil.erp.util.ImagePreprocessor;
 
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -42,13 +43,19 @@ public class TesseractOcrService {
         	System.out.println("TESSDATA_PREFIX=" + System.getenv("TESSDATA_PREFIX"));
             System.out.println("Downloading image...");
 //            Files.copy(new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774791152/nthjhr2zuds5isftw4sl.jpg").openStream(), Paths.get(filePath));
+            
+            ImagePreprocessor imagePreprocessor = new ImagePreprocessor();
+            
+             
             Files.copy(
-            	    new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774791152/nthjhr2zuds5isftw4sl.jpg").openStream(),
+            	    new URL("https://res.cloudinary.com/dtu5tquvo/image/upload/v1774844107/eeuwgh1msh80wxsclxe0.jpg\r\n").openStream(),
             	    Paths.get(filePath),
             	    java.nio.file.StandardCopyOption.REPLACE_EXISTING
             	);
+            System.out.println("Preprocessing Started....");
+            File preProecssedFile =   imagePreprocessor.preprocessImage(filePath);
             System.out.println("Running OCR...");
-            String ocrText = tesseract.doOCR(new File(filePath));
+            String ocrText = tesseract.doOCR(preProecssedFile);
 
             System.out.println("OCR TEXT: " + ocrText);
 
@@ -62,6 +69,7 @@ public class TesseractOcrService {
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (Exception e) {
+        	e.printStackTrace();
             throw new RuntimeException("OCR failed", e);
         }
     }
