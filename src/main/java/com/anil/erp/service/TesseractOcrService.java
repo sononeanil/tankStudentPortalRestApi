@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,7 +113,18 @@ public class TesseractOcrService {
             System.out.println("Running OCR...");
 
             ITesseract tesseract = createTesseract();
-            String ocrText = tesseract.doOCR(processedFile);
+            List<File> files = imagePreprocessor.preprocessAndSplit(filePath);
+
+            StringBuilder finalText = new StringBuilder();
+
+            for (File file : files) {
+                String text = tesseract.doOCR(file);
+                System.out.println(text);
+                finalText.append(text).append("\n\n");
+                file.delete();
+            }
+
+            String ocrText = finalText.toString();
 
             System.out.println("OCR TEXT: " + ocrText);
 
