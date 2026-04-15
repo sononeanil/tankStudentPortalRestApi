@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>AI Study Assistant</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        .note-card { border-left: 5px solid #0d6efd; margin-bottom: 10px; padding: 10px; background: #f8f9fa; }
+        .quiz-card { border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        .badge-answer { background-color: #198754; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8em; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <h1 class="text-center mb-5 text-primary">AI Study Material</h1>
+
+    <!-- 1. SUMMARY SECTION -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h3 class="card-title">📖 Summary</h3>
+            <p class="lead" th:text="${material.summary}">Summary text goes here...</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 2. KEY NOTES SECTION -->
+        <div class="col-md-6">
+            <h3>📝 Key Notes</h3>
+            <div th:each="note : ${material.notes}" class="note-card shadow-sm">
+                <span th:text="${note}">Note text...</span>
+            </div>
+        </div>
+
+        <!-- 3. QUIZ SECTION -->
+        <div class="col-md-6">
+            <h3>❓ Practice Quiz</h3>
+            <div th:each="q, iter : ${material.questions}" class="quiz-card bg-white shadow-sm">
+                <h5 th:text="${iter.count + '. ' + q.question}">Question?</h5>
+                <ul class="list-group list-group-flush my-3">
+                    <li th:each="opt : ${q.options}" class="list-group-item" th:text="${opt}">Option</li>
+                </ul>
+                <div class="mt-2">
+                    <strong>Correct Answer:</strong> 
+                    <span class="badge-answer" th:text="${q.answer}">Answer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

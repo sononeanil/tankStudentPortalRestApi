@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.anil.erp.common.ErpsystemResponse;
@@ -22,6 +23,9 @@ import com.anil.erp.util.JwtUtil;
 
 @Service
 public class LoginService {
+
+	@Autowired
+    private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	LoginRepository loginRepository;
@@ -32,6 +36,11 @@ public class LoginService {
     @Autowired
     private JwtUtil jwtUtil;
 
+
+    LoginService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
    
 	
     public ResponseEntity<ErpsystemResponse> createLogin(LoginEntity loginEntity) {
@@ -41,8 +50,11 @@ public class LoginService {
         UserEntity userEntity =  null;
         if (optinalUserEntity.isPresent()) {
              userEntity = optinalUserEntity.get();
-            if (userEntity.getEmail().equals(loginEntity.getUserId()) &&
-                userEntity.getPassword().equals(loginEntity.getPassword())) {
+             /**
+              * Here, email id means user id and alternet email id is used for all communication
+              */
+            if ((userEntity.getEmail().equals(loginEntity.getUserId()) )&& (passwordEncoder.matches(loginEntity.getPassword(), userEntity.getPassword()))
+                ) {
 
                 erpsystemResponse.getErpSystemResponse().put("createLogin", "User got access to the system");
                 /**

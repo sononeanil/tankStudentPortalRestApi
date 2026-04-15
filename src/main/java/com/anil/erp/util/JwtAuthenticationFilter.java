@@ -39,7 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if ("/erpsystem/login/validate".equals(path) ||
         		"/erpsystem/login/publishCourse/all".equals(path)|| 
         		"/erpsystem/login/publishCourse/top6".equals(path) || 
-        		"/erpsystem/user/signup".equals(path)) {
+        		"/erpsystem/user/signup".equals(path)||
+        		"/erpsystem/tutor/enrolTutor".equals(path)) {
             filterChain.doFilter(request, response);
             return;
         }

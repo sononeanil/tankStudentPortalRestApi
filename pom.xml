@@ -11,8 +11,8 @@
 	<groupId>com.anilpractice</groupId>
 	<artifactId>ERPSystem2025Nov27</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>TeachersPortal</name>
-	<description>TeachersPortal for online courses</description>
+	<name>Student Portal</name>
+	<description>Student Portal for Study and Notes</description>
 	<url/>
 	<licenses>
 		<license/>
