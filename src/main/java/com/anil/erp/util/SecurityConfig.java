@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,7 +33,8 @@ public class SecurityConfig {
                 		"/erpsystem/login/publishCourse", 
                 		"/erpsystem/user/signup",
                 		"/erpsystem/student/**",
-                		"/erpsystem/user/parent/**").permitAll()
+                		"/erpsystem/user/parent/**",
+                		"/erpsystem/tutor/enrolTutor/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Teacher-only upload
                 .requestMatchers("/erpsystem/upload/**","/erpsystem/zoom/**","/erpsystem/teacher/**").hasRole("TEACHER")
@@ -69,5 +72,9 @@ public class SecurityConfig {
         return source;
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

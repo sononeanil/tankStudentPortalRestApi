@@ -3,7 +3,10 @@
 //-------------POJO Generator----------------------
 package com.anil.erp.entity;
 
+import com.anil.erp.util.StringEncryptConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,8 +45,10 @@ public class UserEntity {
 	private String email;
 	private String password;
 	private String role;
+	@Convert(converter = StringEncryptConverter.class)
 	private String phoneNumber;
 	@Column(nullable = true)
+	@Convert(converter = StringEncryptConverter.class)
 	private String alternateEmailId;
 
 }

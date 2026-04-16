@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.anil.erp.common.ErpsystemResponse;
@@ -20,6 +21,9 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -74,13 +78,16 @@ public class UserService {
 		HttpStatus httpStatus = HttpStatus.CREATED;
 		try {
 			userEntity.setRole("USER");
+			userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 			userRepository.save(userEntity);
 			erpsystemResponse.getErpSystemResponse().put("createUser", "User got Registred in the system");
 		}catch(DataIntegrityViolationException dataIntegrityViolationException	) {
-			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. Email Id already Exists. Please use another emaild id");
+			
+			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. User Id already Exists. Please use another user id");
 			httpStatus = HttpStatus.CONFLICT;
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			erpsystemResponse.getErpSystemResponse().put("message", " Registration Failed. ");
 			httpStatus = HttpStatus.CONFLICT;
 		}
