@@ -1,5 +1,6 @@
 package com.anil.erp.pojo;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -17,28 +18,40 @@ public class TutorBiographyPOJO {
 	private String lastName;
 	private String userId;
 	private String headline;
-	private String coreExpertise;
-	private String subjectList;
-	private String standardList;
-	private String preferableTimings;
-	private String projectedNewBatch;
-	private Map<String, Long> fees;
-	private String description;
-	private String credentials;
-	private String fullName;
 	private String profilePhoto;
+	private List<String> coreExpertise;
+	private List<String> subjectList;
+	private List<String> standardList;
+	private List<String> boardList;
+	private List<String> preferableTimings;
+	private String projectedNewBatch;
+	private List<String> weeklyAvailability;
+	private String description;
+	private List<String> credentials;
+	private List<String> qualifications;
+	private String trialClassAvailable;
 	private String gender;
+	private List<String> languages;
 	private String city;
 	private String state;
-	private String languages;
-	private String weeklyAvailability;
-	private String trialClassAvailable;
 	private String country;
-	private String boardList;
+	private String pincode;
 	private String phoneNumber;
 	private String emailId;
-	private String pincode;
-	private String qualifications;
 	private String password;
+	private Map<String, Long> fees;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

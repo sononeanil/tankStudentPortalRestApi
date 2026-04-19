@@ -16,12 +16,11 @@ public class TutorBiographyService {
 
 	@Autowired
 	PythonServiceClient pythonServiceClient;
-    private final LoginController loginController;
+
+	@Autowired
+	UserService userService;
 
 
-    TutorBiographyService(LoginController loginController) {
-        this.loginController = loginController;
-    }
 
 	
 	public ResponseEntity<ErpsystemResponse> getTutorBiographyList() {
@@ -33,7 +32,9 @@ public class TutorBiographyService {
 	}
 	
 	public ResponseEntity<ErpsystemResponse> createTutorBiography(TutorBiographyPOJO tutorBiographyPOJO) {
-		ErpsystemResponse erpsystemResponse = null;
+		ErpsystemResponse erpsystemResponse = new ErpsystemResponse();
+		HttpStatus httpStatus = HttpStatus.CREATED;
+		String message = "Successful";
 		try {
 			UserEntity userEntity = new UserEntity();
 			userEntity.setAlternateEmailId(tutorBiographyPOJO.getEmailId()	);
@@ -44,6 +45,9 @@ public class TutorBiographyService {
 			userEntity.setFirstName(tutorBiographyPOJO.getFirstName());
 			userEntity.setLastName(tutorBiographyPOJO.getLastName());
 			userEntity.setPassword(tutorBiographyPOJO.getPassword());
+			
+			userService.createUser(userEntity);
+			
 			
 			tutorBiographyPOJO.setPassword(null);
 			tutorBiographyPOJO.setUserId(null);
@@ -56,8 +60,12 @@ public class TutorBiographyService {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			httpStatus = HttpStatus.BAD_REQUEST;
+			message = "Exception while creating Biography of Tutor";
+			
 		}
-		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, HttpStatus.CREATED);
+		erpsystemResponse.getErpSystemResponse().put("message", message);
+		return new ResponseEntity<ErpsystemResponse>(erpsystemResponse, httpStatus);
 	}
 
 	public ResponseEntity<ErpsystemResponse> deleteTutorBiography(long tutorBiographyId) {

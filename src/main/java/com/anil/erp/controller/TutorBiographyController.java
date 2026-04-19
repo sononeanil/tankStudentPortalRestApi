@@ -34,8 +34,8 @@ public class TutorBiographyController {
 	}
 	
 	@PostMapping("/enrolTutor")
-	public ResponseEntity<ErpsystemResponse> createTutorBiography(@RequestBody TutorBiographyPOJO tutorBiographyEntity) {
-		return tutorBiographyService.createTutorBiography(tutorBiographyEntity);
+	public ResponseEntity<ErpsystemResponse> createTutorBiography(@RequestBody TutorBiographyPOJO turoBiographyPOJO) {
+		return tutorBiographyService.createTutorBiography(turoBiographyPOJO);
 	}
 	
 	@DeleteMapping("/{id}")
